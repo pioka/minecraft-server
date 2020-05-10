@@ -2,7 +2,7 @@ version: "3"
 
 services:
   game:
-    image: pioka/minecraft-server
+    image: pioka/minecraft-server:1.15.2
     network_mode: host
     volumes:
       - data:/opt/minecraft/data
