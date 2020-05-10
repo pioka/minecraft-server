@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  game:
+    image: pioka/minecraft-server
+    network_mode: host
+    volumes:
+      - data:/opt/minecraft/data
+    environment:
+      - MC_EULA=true
+      - MC_JVM_ARGS=-Xms4G -Xmx4G
+      - MC_TIMEZONE=Asia/Tokyo
+      - MC_BACKUP_PERIOD_SEC=3600
+      - MC_BACKUP_COMPLETE_TEXT=定期バックアップ完了
+
+volumes:
+  data:
