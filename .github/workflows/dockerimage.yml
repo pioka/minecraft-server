@@ -7,11 +7,16 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-push:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        mc_version: [1.15.2, 1.15.1]
+        mc_version:
+          - 1.11.2
+          - 1.12.2
+          - 1.13.2
+          - 1.14.4
+          - 1.15.2
     steps:
     - uses: actions/checkout@v2
     - name: get server.jar URL
