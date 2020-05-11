@@ -25,6 +25,7 @@ jobs:
       with:
         build_args: JAR_URL=${{ env.jar_url }}
         repository: pioka/minecraft-server
+        cache_froms: pioka/minecraft-server:${{ matrix.mc_version }}
         tags: ${{ matrix.mc_version }}
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
