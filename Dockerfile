@@ -10,8 +10,8 @@ RUN apk add --no-cache \
 ARG JAR_URL
 
 WORKDIR /opt/minecraft/
-RUN wget -q ${JAR_URL} -O server.jar
 COPY entrypoint.sh backup-loop.sh ./
+RUN wget -q ${JAR_URL} -O server.jar
 
 WORKDIR /opt/minecraft/data
 CMD ["/opt/minecraft/entrypoint.sh"]
