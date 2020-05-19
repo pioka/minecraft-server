@@ -12,11 +12,15 @@ jobs:
     strategy:
       matrix:
         mc_version:
-          - 1.11.2
-          - 1.12.2
-          - 1.13.2
-          - 1.14.4
           - 1.15.2
+          - 1.14.4
+          - 1.13.2
+          - 1.12.2
+          - 1.11.2
+          - 1.10.2
+          - 1.9.4
+          - 1.8.9
+          - 1.7.10
     steps:
     - uses: actions/checkout@v2
     - name: get server.jar URL
@@ -25,7 +29,6 @@ jobs:
       with:
         build_args: JAR_URL=${{ env.jar_url }}
         repository: pioka/minecraft-server
-        cache_froms: pioka/minecraft-server:${{ matrix.mc_version }}
         tags: ${{ matrix.mc_version }}
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
