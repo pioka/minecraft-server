@@ -25,12 +25,16 @@ fi
 # Start server on screen
 screen -mdS minecraft java -jar ${MC_JVM_ARGS} ${JAR_DIR}/server.jar --port=${MC_PORT}
 
+echo 'You can see logs by `docker exec <CONTAINER_ID> cat /opt/minecraft/data/logs/latest.log`'
+
 # Run backup script if $MC_BACKUP_PERIOD_SEC > 0
 if [ ${MC_BACKUP_PERIOD_SEC} -gt 0 ]; then
   mkdir -p backup
   ${JAR_DIR}/backup-loop.sh ${MC_BACKUP_PERIOD_SEC} &
 fi
 
-# Display server console
-export TERM=vt100
-script -c "screen -r minecraft" /dev/null
+# とりあえずループさせてコンテナが終了しないようにする(あたまわるわる)
+while :
+do
+  sleep 1
+done
