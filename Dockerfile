@@ -2,16 +2,18 @@ FROM alpine:3.11
 
 RUN apk add --no-cache \
   openjdk11-jre-headless \
-  screen \
-  ncurses-terminfo \
-  util-linux \
-  tzdata
+  tzdata \
+  curl \
+  jq
 
-ARG JAR_URL
+COPY entrypoint.sh /opt/minecraft/bin/entrypoint.sh
+RUN mkdir /opt/minecraft/data
 
-WORKDIR /opt/minecraft/
-COPY entrypoint.sh backup-loop.sh ./
-RUN wget -q ${JAR_URL} -O server.jar
+ENV \
+  MC_VERSION_LIST_URL='http://launchermeta.mojang.com/mc/game/version_manifest.json' \
+  MC_EULA=false \
+  MC_JVM_ARGS="" \
+  MC_TIMEZONE="Etc/UTC" \
+  MC_VERSION=""
 
-WORKDIR /opt/minecraft/data
-CMD ["/opt/minecraft/entrypoint.sh"]
+CMD ["/opt/minecraft/bin/entrypoint.sh"]

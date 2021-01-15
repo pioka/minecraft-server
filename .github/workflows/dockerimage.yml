@@ -9,27 +9,10 @@ on:
 jobs:
   build-push:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        mc_version:
-          - 1.16.4
-          - 1.15.2
-          - 1.14.4
-          - 1.13.2
-          - 1.12.2
-          - 1.11.2
-          - 1.10.2
-          - 1.9.4
-          - 1.8.9
-          - 1.7.10
     steps:
-    - uses: actions/checkout@v2
-    - name: get server.jar URL
-      run: echo ::set-env name=jar_url::$(./build/url-resolver.sh ${{ matrix.mc_version }})
-    - uses: docker/build-push-action@v1
-      with:
-        build_args: JAR_URL=${{ env.jar_url }}
-        repository: pioka/minecraft-server
-        tags: ${{ matrix.mc_version }}
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+      - uses: actions/checkout@v2
+      - uses: docker/build-push-action@v1
+        with:
+          repository: pioka/minecraft-server
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}

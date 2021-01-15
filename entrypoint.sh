@@ -1,40 +1,40 @@
 #!/bin/sh
-JAR_DIR=/opt/minecraft
+BIN_DIR='/opt/minecraft/bin'
+DATA_DIR='/opt/minecraft/data'
 
-echo "================ Environment ================"
-echo "MC_EULA                 | ${MC_EULA:=false}"
-echo "MC_JVM_ARGS             | ${MC_JVM_ARGS:=}"
-echo "MC_PORT                 | ${MC_PORT:=25565}"
-echo "MC_BACKUP_PERIOD_SEC    | ${MC_BACKUP_PERIOD_SEC:=0}"
-echo "MC_TIMEZONE             | ${MC_TIMEZONE:=Etc/UTC}"
-echo "MC_BACKUP_COMPLETE_TEXT | ${MC_BACKUP_COMPLETE_TEXT:=}"
-echo "============================================="
+# Check $MC_VERSION is given
+if [ -z "${MC_VERSION}" ]; then
+  echo "Please set minecraft version. \n  Example: '-e MC_VERSION=1.16.4'"
+  exit 1
+fi
 
-# Timezone configuration
+# Get version manifest
+manifest_url=`curl -s ${MC_VERSION_LIST_URL} | jq -r ".versions[] | select(.id==\"${MC_VERSION}\") .url"`
+if [ -z "${manifest_url}" ]; then
+  echo "Failed to get manifest for ${MC_VERSION}"
+  exit 1
+fi
+
+# Get server binary
+echo "Downloading server binary..."
+jar_url=`curl -s ${manifest_url} | jq -r ".downloads .server .url"`
+curl -s -o ${BIN_DIR}/server.jar ${jar_url} 
+echo "done"
+
+# Configure timezone
 if [ -e /usr/share/zoneinfo/${MC_TIMEZONE} ]; then
   cp /usr/share/zoneinfo/${MC_TIMEZONE} /etc/localtime
 else
   echo "Timezone configuration failed"
+  exit 1
 fi
 
 # EULA Agreement
 if [ "${MC_EULA:-}" == true ]; then
-  echo "eula=true" > eula.txt
+  echo "eula=true" > ${DATA_DIR}/eula.txt
 fi
 
-# Start server on screen
-screen -mdS minecraft java -jar ${MC_JVM_ARGS} ${JAR_DIR}/server.jar --port=${MC_PORT}
+cd ${DATA_DIR}
 
-echo 'You can see logs by `docker exec <CONTAINER_ID> cat /opt/minecraft/data/logs/latest.log`'
-
-# Run backup script if $MC_BACKUP_PERIOD_SEC > 0
-if [ ${MC_BACKUP_PERIOD_SEC} -gt 0 ]; then
-  mkdir -p backup
-  ${JAR_DIR}/backup-loop.sh ${MC_BACKUP_PERIOD_SEC} &
-fi
-
-# とりあえずループさせてコンテナが終了しないようにする(あたまわるわる)
-while :
-do
-  sleep 1
-done
+# Start server
+java -jar ${MC_JVM_ARGS} ${BIN_DIR}/server.jar
