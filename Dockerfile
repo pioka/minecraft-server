@@ -1,7 +1,6 @@
-FROM alpine:3.11
+FROM openjdk:16-alpine
 
 RUN apk add --no-cache \
-  openjdk11-jre-headless \
   tzdata \
   curl \
   jq
