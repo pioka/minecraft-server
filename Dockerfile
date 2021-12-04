@@ -1,4 +1,4 @@
-FROM openjdk:16-alpine
+FROM openjdk:18-alpine3.15
 
 RUN apk add --no-cache \
   tzdata \

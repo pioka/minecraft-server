@@ -8,8 +8,9 @@ services:
       - data:/opt/minecraft/data
     environment:
       - MC_EULA=true
-      - MC_VERSION=1.16.5
+      - MC_VERSION=1.18
       - MC_TIMEZONE=Asia/Tokyo
+      - MC_JVM_ARGS=-Xmx1024M -Xms1024M
       - MC_PROP_DIFFICULTY=normal
       - MC_PROP_VIEW_DISTANCE=32
 
