@@ -34,7 +34,8 @@ if [ "${MC_EULA:-}" == true ]; then
   echo "eula=true" > ${DATA_DIR}/eula.txt
 fi
 
-cd ${DATA_DIR}
+# Generate server.properties
+${BIN_DIR}/generate_server_properties.sh > ${DATA_DIR}/server.properties
 
 # Start server
-java -jar ${MC_JVM_ARGS} ${BIN_DIR}/server.jar
+cd ${DATA_DIR} && java -jar ${MC_JVM_ARGS} ${BIN_DIR}/server.jar
