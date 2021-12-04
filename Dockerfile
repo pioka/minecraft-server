@@ -6,6 +6,8 @@ RUN apk add --no-cache \
   jq
 
 COPY entrypoint.sh /opt/minecraft/bin/entrypoint.sh
+COPY generate_server_properties.sh /opt/minecraft/bin/generate_server_properties.sh
+
 RUN mkdir /opt/minecraft/data
 
 ENV \

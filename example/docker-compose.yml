@@ -2,7 +2,7 @@ version: "3"
 
 services:
   game:
-    image: pioka/minecraft-server:1.15.2
+    image: pioka/minecraft-server:latest
     network_mode: host
     volumes:
       - data:/opt/minecraft/data
@@ -10,6 +10,8 @@ services:
       - MC_EULA=true
       - MC_VERSION=1.16.5
       - MC_TIMEZONE=Asia/Tokyo
+      - MC_PROP_DIFFICULTY=normal
+      - MC_PROP_VIEW_DISTANCE=32
 
 volumes:
   data:
