@@ -1,6 +1,7 @@
 #!/bin/sh
 BIN_DIR='/opt/minecraft/bin'
 DATA_DIR='/opt/minecraft/data'
+MC_VERSION_LIST_URL='http://launchermeta.mojang.com/mc/game/version_manifest.json'
 
 # Check $MC_VERSION is given
 if [ -z "${MC_VERSION}" ]; then
