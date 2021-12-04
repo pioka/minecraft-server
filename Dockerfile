@@ -11,10 +11,9 @@ COPY generate_server_properties.sh /opt/minecraft/bin/generate_server_properties
 RUN mkdir /opt/minecraft/data
 
 ENV \
-  MC_VERSION_LIST_URL='http://launchermeta.mojang.com/mc/game/version_manifest.json' \
+  MC_VERSION="" \
   MC_EULA=false \
-  MC_JVM_ARGS="" \
   MC_TIMEZONE="Etc/UTC" \
-  MC_VERSION=""
+  MC_JVM_ARGS=""
 
 CMD ["/opt/minecraft/bin/entrypoint.sh"]
