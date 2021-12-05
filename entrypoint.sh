@@ -35,6 +35,34 @@ if [ "${MC_EULA:-}" == true ]; then
   echo "eula=true" > ${DATA_DIR}/eula.txt
 fi
 
+# Create ops.txt if ops is not configured
+if [ ! -e ${DATA_DIR}/ops.json ]; then
+  for player in ${MC_INIT_OPS}; do
+    echo $player >> ${DATA_DIR}/ops.txt
+  done
+fi
+
+# Create whitelist.txt if whitelist is not configured
+if [ ! -e ${DATA_DIR}/whitelist.json ]; then
+  for player in ${MC_INIT_WHITELIST}; do
+    echo $player >> ${DATA_DIR}/white-list.txt
+  done
+fi
+
+# Create banned-players.txt if banned-players is not configured
+if [ ! -e ${DATA_DIR}/banned-players.json ]; then
+  for player in ${MC_INIT_BANNED_PLAYERS}; do
+    echo $player >> ${DATA_DIR}/banned-players.txt
+  done
+fi
+
+# Create banned-ips.txt if banned-ip is not configured
+if [ ! -e ${DATA_DIR}/banned-ips.json ]; then
+  for player in ${MC_INIT_BANNED_IPS}; do
+    echo $player >> ${DATA_DIR}/banned-ips.txt
+  done
+fi
+
 # Generate server.properties
 ${BIN_DIR}/generate_server_properties.sh > ${DATA_DIR}/server.properties
 
