@@ -22,6 +22,22 @@
   * (optional) Command line args for JVM.
   * default: ``
 
+#### Options available at first launch
+These options can be specify multiple values, separated by spaces.
+
+* __`MC_INIT_OPS`__:
+  * (optional) Players to add ops.
+  * default: ``
+* __`MC_INIT_WHITELIST`__:
+  * (optional) Players to add white-list
+  * default: ``
+* __`MC_INIT_BANNED_PLAYERS`__:
+  * (optional) Players to add banned-players
+  * default: ``
+* __`MC_INIT_BANNED_IPS`__:
+  * (optional) IPs to add banned-ips
+  * default: ``
+
 #### Options for server.properties
 You can use __`MC_PROP_*`__ variable to set the value of `server.properties`.  
 e.g. `MC_PROP_VIEW_DISTANCE=32`→`view-distance=32`
