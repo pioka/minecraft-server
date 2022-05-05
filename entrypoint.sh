@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e
+
 BIN_DIR='/opt/minecraft/bin'
 DATA_DIR='/opt/minecraft/data'
 MC_VERSION_LIST_URL='http://launchermeta.mojang.com/mc/game/version_manifest.json'
@@ -38,37 +40,36 @@ if [ "${MC_EULA:-}" == true ]; then
   echo "eula=true" > ${DATA_DIR}/eula.txt
 fi
 
-# 2.3. (First launch only) Create ops.txt if ops is not configured
+# 2.3. Generate server.properties
+echo ${MC_SERVER_PROPERTIES_BASE64} | base64 -d > ${DATA_DIR}/server.properties
+
+# 2.4. (First launch only) Create ops.txt if ops is not configured
 if [ ! -e ${DATA_DIR}/ops.json ]; then
   for player in ${MC_INIT_OPS}; do
     echo $player >> ${DATA_DIR}/ops.txt
   done
 fi
 
-# 2.4. (First launch only) Create whitelist.txt if whitelist is not configured
+# 2.5. (First launch only) Create whitelist.txt if whitelist is not configured
 if [ ! -e ${DATA_DIR}/whitelist.json ]; then
   for player in ${MC_INIT_WHITELIST}; do
     echo $player >> ${DATA_DIR}/white-list.txt
   done
 fi
 
-# 2.5. (First launch only) Create banned-players.txt if banned-players is not configured
+# 2.6. (First launch only) Create banned-players.txt if banned-players is not configured
 if [ ! -e ${DATA_DIR}/banned-players.json ]; then
   for player in ${MC_INIT_BANNED_PLAYERS}; do
     echo $player >> ${DATA_DIR}/banned-players.txt
   done
 fi
 
-# 2.6. (First launch only) Create banned-ips.txt if banned-ip is not configured
+# 2.7. (First launch only) Create banned-ips.txt if banned-ip is not configured
 if [ ! -e ${DATA_DIR}/banned-ips.json ]; then
   for player in ${MC_INIT_BANNED_IPS}; do
     echo $player >> ${DATA_DIR}/banned-ips.txt
   done
 fi
-
-# 2.7. Generate server.properties
-${BIN_DIR}/generate_server_properties.sh > ${DATA_DIR}/server.properties
-
 
 # 3. Start server
 cd ${DATA_DIR} && java -jar ${MC_JVM_ARGS} ${BIN_DIR}/server.jar

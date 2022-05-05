@@ -11,8 +11,7 @@ services:
       - MC_VERSION=1.18
       - MC_TIMEZONE=Asia/Tokyo
       - MC_JVM_ARGS=-Xmx1024M -Xms1024M
-      - MC_PROP_DIFFICULTY=normal
-      - MC_PROP_VIEW_DISTANCE=32
+      - MC_SERVER_PROPERTIES_BASE64=ZGlmZmljdWx0eT1ub3JtYWwKdmlldy1kaXN0YW5jZT0zMg==
 
 volumes:
   data:

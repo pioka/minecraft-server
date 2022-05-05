@@ -21,6 +21,9 @@
 * __`MC_JVM_ARGS`__:
   * (optional) Command line args for JVM.
   * default: ``
+* __`MC_SERVER_PROPERTIES_BASE64`__
+  * (optional) base64 encoded `server.properties` file.
+  * default : ``
 
 #### Options available at first launch
 These options can be specify multiple values, separated by spaces.
@@ -37,7 +40,3 @@ These options can be specify multiple values, separated by spaces.
 * __`MC_INIT_BANNED_IPS`__:
   * (optional) IPs to add banned-ips
   * default: ``
-
-#### Options for server.properties
-You can use __`MC_PROP_*`__ variable to set the value of `server.properties`.  
-e.g. `MC_PROP_VIEW_DISTANCE=32`→`view-distance=32`
