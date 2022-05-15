@@ -3,6 +3,7 @@ set -e
 
 BIN_DIR='/opt/minecraft/bin'
 DATA_DIR='/opt/minecraft/data'
+PIPE_PATH='/opt/minecraft/pipe/stdin.pipe'
 MC_VERSION_LIST_URL='http://launchermeta.mojang.com/mc/game/version_manifest.json'
 
 # 1. Download server binary
@@ -69,7 +70,16 @@ if [ ! -e ${DATA_DIR}/banned-ips.json ]; then
   for player in ${MC_INIT_BANNED_IPS}; do
     echo $player >> ${DATA_DIR}/banned-ips.txt
   done
+else
+  echo '`banned-ips.json` exists. $MC_INIT_BANNED_IPS will be ignored.'
 fi
 
-# 3. Start server
-cd ${DATA_DIR} && java -jar ${MC_JVM_ARGS} ${BIN_DIR}/server.jar
+# 3. Create named pipe if not exists.
+if [ ! -p ${PIPE_PATH} ]; then
+  mkfifo ${PIPE_PATH}
+fi
+
+# 4. Start server
+echo '* Start server...'
+echo '================ server.jar output ================'
+tail -f ${PIPE_PATH} | java -jar ${MC_JVM_ARGS} ${BIN_DIR}/server.jar

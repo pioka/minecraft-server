@@ -5,9 +5,12 @@ RUN apk add --no-cache \
   curl \
   jq
 
-COPY entrypoint.sh /opt/minecraft/bin/entrypoint.sh
+RUN mkdir -p \
+  /opt/minecraft/bin \
+  /opt/minecraft/data \
+  /opt/minecraft/pipe 
 
-RUN mkdir /opt/minecraft/data
+COPY entrypoint.sh /opt/minecraft/bin/entrypoint.sh
 
 ENV \
   MC_VERSION="" \
@@ -20,4 +23,5 @@ ENV \
   MC_INIT_BANNED_PLAYERS="" \
   MC_INIT_BANNED_IPS=""
 
+WORKDIR /opt/minecraft/data
 CMD ["/opt/minecraft/bin/entrypoint.sh"]

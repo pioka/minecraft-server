@@ -6,6 +6,8 @@
 ### Volume
 * __`/opt/minecraft/data`__:
   * Contains Minecraft world data.
+* __`/opt/minecraft/pipe/`__:
+  * You can execute server command through pipe:`/opt/minecraft/pipe/server.stdin`.
 
 ### Environment Variables
 #### Generic Options
