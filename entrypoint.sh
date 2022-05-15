@@ -12,6 +12,7 @@ if [ -z "${MC_VERSION}" ]; then
   echo "Please set minecraft version. \n  Example: '-e MC_VERSION=1.16.4'"
   exit 1
 fi
+echo "* Download v${MC_VERSION} server binary..."
 
 # 1.2. Get version manifest
 manifest_url=`curl -s ${MC_VERSION_LIST_URL} | jq -r ".versions[] | select(.id==\"${MC_VERSION}\") .url"`
@@ -21,13 +22,12 @@ if [ -z "${manifest_url}" ]; then
 fi
 
 # 1.3. Get server binary
-echo "Downloading server binary..."
 jar_url=`curl -s ${manifest_url} | jq -r ".downloads .server .url"`
 curl -s -o ${BIN_DIR}/server.jar ${jar_url} 
-echo "done"
 
 
 # 2. Configure server
+echo '* Apply server options...'
 # 2.1. Configure timezone
 if [ -e /usr/share/zoneinfo/${MC_TIMEZONE} ]; then
   cp /usr/share/zoneinfo/${MC_TIMEZONE} /etc/localtime
@@ -43,12 +43,17 @@ fi
 
 # 2.3. Generate server.properties
 echo ${MC_SERVER_PROPERTIES_BASE64} | base64 -d > ${DATA_DIR}/server.properties
+echo -e "Decoded server.properties:\n--------"
+cat ${DATA_DIR}/server.properties
+echo -e "\n--------"
 
 # 2.4. (First launch only) Create ops.txt if ops is not configured
 if [ ! -e ${DATA_DIR}/ops.json ]; then
   for player in ${MC_INIT_OPS}; do
     echo $player >> ${DATA_DIR}/ops.txt
   done
+else
+  echo '`ops.json` exists. $MC_INIT_OPS will be ignored.'
 fi
 
 # 2.5. (First launch only) Create whitelist.txt if whitelist is not configured
@@ -56,6 +61,8 @@ if [ ! -e ${DATA_DIR}/whitelist.json ]; then
   for player in ${MC_INIT_WHITELIST}; do
     echo $player >> ${DATA_DIR}/white-list.txt
   done
+else
+  echo '`whitelist.json` exists. $MC_INIT_BANNED_WHITELIST will be ignored.'
 fi
 
 # 2.6. (First launch only) Create banned-players.txt if banned-players is not configured
@@ -63,6 +70,8 @@ if [ ! -e ${DATA_DIR}/banned-players.json ]; then
   for player in ${MC_INIT_BANNED_PLAYERS}; do
     echo $player >> ${DATA_DIR}/banned-players.txt
   done
+else
+  echo '`banned-players.json` exists. $MC_INIT_BANNED_PLAYERS will be ignored.'
 fi
 
 # 2.7. (First launch only) Create banned-ips.txt if banned-ip is not configured
