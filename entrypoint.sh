@@ -43,42 +43,47 @@ fi
 
 # 2.3. Generate server.properties
 echo "${MC_SERVER_PROPERTIES}" > ${DATA_DIR}/server.properties
+echo "${MC_SERVER_PROPERTIES}" | sed '/^\s*$/d' | sed 's/^\s*//' > ${DATA_DIR}/server.properties
 echo -e "server.properties:\n--------"
 cat ${DATA_DIR}/server.properties
-echo -e "\n--------"
+echo -e "--------\n"
 
 # 2.4. (First launch only) Create ops.txt if ops is not configured
 if [ ! -e ${DATA_DIR}/ops.json ]; then
-  for player in ${MC_INIT_OPS}; do
-    echo $player >> ${DATA_DIR}/ops.txt
-  done
+  echo "${MC_INIT_OPS}" | sed '/^\s*$/d' | sed 's/^\s*//' > ${DATA_DIR}/ops.txt
+  echo -e "ops.txt:\n--------"
+  cat ${DATA_DIR}/ops.txt
+  echo -e "--------\n"
 else
   echo '`ops.json` exists. $MC_INIT_OPS will be ignored.'
 fi
 
 # 2.5. (First launch only) Create whitelist.txt if whitelist is not configured
 if [ ! -e ${DATA_DIR}/whitelist.json ]; then
-  for player in ${MC_INIT_WHITELIST}; do
-    echo $player >> ${DATA_DIR}/white-list.txt
-  done
+  echo "${MC_INIT_WHITELIST}" | sed '/^\s*$/d' | sed 's/^\s*//' > ${DATA_DIR}/white-list.txt
+  echo -e "white-list.txt:\n--------"
+  cat ${DATA_DIR}/white-list.txt
+  echo -e "--------\n"
 else
   echo '`whitelist.json` exists. $MC_INIT_BANNED_WHITELIST will be ignored.'
 fi
 
 # 2.6. (First launch only) Create banned-players.txt if banned-players is not configured
 if [ ! -e ${DATA_DIR}/banned-players.json ]; then
-  for player in ${MC_INIT_BANNED_PLAYERS}; do
-    echo $player >> ${DATA_DIR}/banned-players.txt
-  done
+  echo "${MC_INIT_BANNED_PLAYERS}" | sed '/^\s*$/d' | sed 's/^\s*//' > ${DATA_DIR}/banned-players.txt
+  echo -e "banned-players.txt:\n--------"
+  cat ${DATA_DIR}/banned-players.txt
+  echo -e "--------\n"
 else
   echo '`banned-players.json` exists. $MC_INIT_BANNED_PLAYERS will be ignored.'
 fi
 
 # 2.7. (First launch only) Create banned-ips.txt if banned-ip is not configured
 if [ ! -e ${DATA_DIR}/banned-ips.json ]; then
-  for player in ${MC_INIT_BANNED_IPS}; do
-    echo $player >> ${DATA_DIR}/banned-ips.txt
-  done
+  echo "${MC_INIT_BANNED_IPS}" | sed '/^\s*$/d' | sed 's/^\s*//' > ${DATA_DIR}/banned-ips.txt
+  echo -e "banned-ips.txt:\n--------"
+  cat ${DATA_DIR}/banned-ips.txt
+  echo -e "--------\n"
 else
   echo '`banned-ips.json` exists. $MC_INIT_BANNED_IPS will be ignored.'
 fi
