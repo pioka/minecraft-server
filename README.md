@@ -23,12 +23,12 @@
 * __`MC_JVM_ARGS`__:
   * (optional) Command line args for JVM.
   * default: ``
-* __`MC_SERVER_PROPERTIES_BASE64`__
-  * (optional) base64 encoded `server.properties` file.
+* __`MC_SERVER_PROPERTIES`__
+  * (optional) `server.properties` content.
   * default : ``
 
 #### Options available at first launch
-These options can be specify multiple values, separated by spaces.
+These options can be specify multiple values, separated by linebreak.
 
 * __`MC_INIT_OPS`__:
   * (optional) Players to add ops.
