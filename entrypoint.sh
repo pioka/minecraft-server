@@ -42,8 +42,8 @@ if [ "${MC_EULA:-}" == true ]; then
 fi
 
 # 2.3. Generate server.properties
-echo ${MC_SERVER_PROPERTIES_BASE64} | base64 -d > ${DATA_DIR}/server.properties
-echo -e "Decoded server.properties:\n--------"
+echo "${MC_SERVER_PROPERTIES}" > ${DATA_DIR}/server.properties
+echo -e "server.properties:\n--------"
 cat ${DATA_DIR}/server.properties
 echo -e "\n--------"
 
